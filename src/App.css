@@ -1,0 +1,30 @@
+body{
+    background-color:rgba(3, 28, 44, 0.411);
+}
+h1{
+    justify-content: center;
+    display: flex;
+}
+
+.todo{
+/* display: flex; */
+ justify-content: center;
+
+}
+
+.add-btn{
+background-color: green;
+border-radius: 5cm;
+border-color:green;
+margin-left: 1cm;
+}
+.delete{
+    background-color: red;
+    border-radius: 5cm;
+    margin-left: 1cm;
+}
+.todo-list{
+    font-size: large;
+    font-style: italic;
+
+}
