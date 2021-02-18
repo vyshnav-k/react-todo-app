@@ -1,28 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Axios from "axios";
 
 function TodoApp() {
-  const [task, setTask] = useState("");
-  const [tasklist, setTaskList] = useState([]);
+  const [todo, setTodo] = useState("");
+  const [todolist, setTodoList] = useState([]);
 
-  const inputTextHandler = (e) => {
-    setTask(e.target.value);
+  useEffect(() => {
+    Axios.get("http://localhost:4001/api/get").then((response) => {
+      setTodoList(response.data);
+    });
+  });
+
+  const submitTodo = () => {
+    Axios.post("http://localhost:4001/api/insert", { todo: todo })
+      .then(() => {
+        setTodoList([...todolist, todo]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  const AddTask = () => {
-    if (task !== "") {
-      const taskDetails = {
-        id: Math.floor(Math.random() * 100),
-        value: task,
-        isCompleted: false,
-      };
-
-      setTaskList([...tasklist, taskDetails]);
-    }
-  };
-
-  const deletetask = (e, id) => {
-    e.preventDefault();
-    setTaskList(tasklist.filter((t) => t.id != id));
+  const deleteTodo = (id) => {
+    Axios.delete(`http://localhost:4001/api/delete/${id}`);
   };
 
   return (
@@ -33,21 +33,30 @@ function TodoApp() {
           type="text"
           name="text"
           id="text"
-          onChange={(e) => inputTextHandler(e)}
+          onChange={(e) => {
+            setTodo(e.target.value);
+          }}
           placeholder="Add your task"
         />
-        <button className="add-btn" onClick={AddTask}>
+
+        <button className="add-btn" onClick={submitTodo}>
           ADD
         </button>
         <br />
       </div>
-      {tasklist !== [] ? (
-        <ul>
-          {tasklist.map((t) => (
-            <li className="todo-list">
-              {t.value}
 
-              <button className="delete" onClick={(e) => deletetask(e, t.id)}>
+      {todolist !== [] ? (
+        <ul>
+          {todolist.map((value) => (
+            <li className="todo-list">
+              {value.todo}
+
+              <button
+                onClick={() => {
+                  deleteTodo(value.id);
+                }}
+                className="delete"
+              >
                 Delete
               </button>
             </li>
