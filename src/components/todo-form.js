@@ -9,7 +9,7 @@ function TodoApp() {
     Axios.get("http://localhost:4001/api/get").then((response) => {
       setTodoList(response.data);
     });
-  });
+  },[]);
 
   const submitTodo = () => {
     Axios.post("http://localhost:4001/api/insert", { todo: todo })
@@ -49,7 +49,7 @@ function TodoApp() {
         <ul>
           {todolist.map((value) => (
             <li className="todo-list">
-              {value.todo}
+              {value.list}
 
               <button
                 onClick={() => {
