@@ -5,7 +5,6 @@ function TodoApp() {
   const [todo, setTodo] = useState("");
   const [todolist, setTodoList] = useState([]);
 
-
   useEffect(() => {
     Axios.get("http://localhost:4001/api/get").then((response) => {
       console.log(response.data);
@@ -16,11 +15,9 @@ function TodoApp() {
   const submitTodo = () => {
     Axios.post("http://localhost:4001/api/insert", { todo: todo })
       .then((response) => {
-        alert(response.data)
+        alert(response.data);
         setTodoList([...todolist, todo]);
-        window.location.reload()
-        
-        
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -28,19 +25,21 @@ function TodoApp() {
   };
 
   const deleteTodo = (id) => {
-    Axios.delete(`http://localhost:4001/api/delete/${id}`).then((response)=>{
-      alert(response.data)
-      window.location.reload()
-      
-    })
+    Axios.delete(`http://localhost:4001/api/delete/${id}`).then((response) => {
+      alert(response.data);
+      window.location.reload();
+    });
   };
   const editTodo = (id) => {
-  var newtodo= prompt("Lets edit the todo...")
-  Axios.put(`http://localhost:4001/api/delete/${id}/${newtodo}`).then((response)=>{
-    alert(response.data)
-     window.location.reload()
-  })
-  };
+    var newtodo = prompt("Lets edit the todo...");
+    if(newtodo!=null){
+      Axios.put(`http://localhost:4001/api/delete/${id}/${newtodo}`).then(
+        (response) => {
+          alert(response.data);
+          window.location.reload();
+        })
+    }
+    };
 
   return (
     <div className="todo-container">
@@ -57,10 +56,8 @@ function TodoApp() {
           placeholder="Add your task"
         />
 
-        <button className="add-btn" onClick={submitTodo}>
-          ADD
-        </button>
-        <br />
+<i class="fas fa-plus-circle" id="add-btn" onClick={submitTodo}></i>
+        <br/>
       </div>
 
       {todolist !== [] ? (
@@ -69,25 +66,35 @@ function TodoApp() {
             <li className="todo-list">
               {value.list}
 
-              <button
+              {/* <button
                 className="button"
-                onClick={() => {
-                  editTodo(value.id,value.list);
-                }}
+               
               >
                
              
-                Edit
-              </button>
-
-              <button
+         
+              </button> */}
+              <i
+                class="far fa-edit"
+                id="button"
                 onClick={() => {
-                  deleteTodo(value.id);
+                  editTodo(value.id, value.list);
                 }}
+              ></i>
+              {/* 
+              <button
+               
                 className="button"
               >
                 Delete
-              </button>
+              </button> */}
+              <i
+                class="far fa-trash-alt"
+                id="button"
+                onClick={() => {
+                  deleteTodo(value.id);
+                }}
+              ></i>
             </li>
           ))}
         </ul>
