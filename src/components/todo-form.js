@@ -5,16 +5,22 @@ function TodoApp() {
   const [todo, setTodo] = useState("");
   const [todolist, setTodoList] = useState([]);
 
+
   useEffect(() => {
     Axios.get("http://localhost:4001/api/get").then((response) => {
+      console.log(response.data);
       setTodoList(response.data);
     });
-  },[]);
+  }, []);
 
   const submitTodo = () => {
     Axios.post("http://localhost:4001/api/insert", { todo: todo })
-      .then(() => {
+      .then((response) => {
+        alert(response.data)
         setTodoList([...todolist, todo]);
+        window.location.reload()
+        
+        
       })
       .catch((err) => {
         console.log(err);
@@ -22,7 +28,18 @@ function TodoApp() {
   };
 
   const deleteTodo = (id) => {
-    Axios.delete(`http://localhost:4001/api/delete/${id}`);
+    Axios.delete(`http://localhost:4001/api/delete/${id}`).then((response)=>{
+      alert(response.data)
+      window.location.reload()
+      
+    })
+  };
+  const editTodo = (id) => {
+  var newtodo= prompt("Lets edit the todo...")
+  Axios.put(`http://localhost:4001/api/delete/${id}/${newtodo}`).then((response)=>{
+    alert(response.data)
+     window.location.reload()
+  })
   };
 
   return (
@@ -31,6 +48,7 @@ function TodoApp() {
         <h1>TODO APP</h1>
         <input
           type="text"
+          Edit
           name="text"
           id="text"
           onChange={(e) => {
@@ -52,10 +70,21 @@ function TodoApp() {
               {value.list}
 
               <button
+                className="button"
+                onClick={() => {
+                  editTodo(value.id,value.list);
+                }}
+              >
+               
+             
+                Edit
+              </button>
+
+              <button
                 onClick={() => {
                   deleteTodo(value.id);
                 }}
-                className="delete"
+                className="button"
               >
                 Delete
               </button>
