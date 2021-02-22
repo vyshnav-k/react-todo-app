@@ -25,11 +25,11 @@ h1 {
 .input input {
   box-shadow: 0 3px 6px #191616;
   border-radius: 5px;
-  border: 1px solid #1e1c7e;
+  border: 1px solid #777676;
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
-  background-color: white;
+  background-color: #1e1c7e;
   color: gray;
 }
 ul {
@@ -49,18 +49,17 @@ input ::placeholder {
   color: gray;
 }
 
-.add-btn {
+#add-btn {
+  color: gray;
+  font-size: larger;
   margin-top: 8px;
-  background-color: #6b6bab;
   border-radius: 7px;
-  box-shadow: 0 3px 6px #0e0e0e;
+
 }
-.button {
-  background-color: blue;
+#button {
   float: right;
-  box-shadow: 0 3px 6px #0e0e0e;
   border-radius: 7px;
-  margin-left: 1%;
+  margin-left: 2%;
 }
 .button:hover {
   background-color: white;
